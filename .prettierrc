@@ -1,0 +1,21 @@
+{
+	"tabWidth": 2,
+	"useTabs": true,
+	"importOrder": [
+		"^(react/(.*)$)|^(react$)",
+		"^(next/(.*)$)|^(next$)",
+		"<THIRD_PARTY_MODULES>",
+		"",
+		"^~/libs/(.*)$",
+		"",
+		"^~/hooks/(.*)$",
+		"",
+		"^~/components/(.*)$",
+		"^~/components/ui/(.*)$",
+		"",
+		"^[./]",
+		"~/(.*)$"
+	],
+
+	"plugins": ["@ianvs/prettier-plugin-sort-imports"]
+}
