@@ -1,6 +1,7 @@
 {
 	"tabWidth": 2,
 	"useTabs": true,
+	"bracketSameLine": true,
 	"importOrder": [
 		"^(react/(.*)$)|^(react$)",
 		"^(next/(.*)$)|^(next$)",

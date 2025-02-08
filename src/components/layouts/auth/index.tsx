@@ -15,8 +15,7 @@ const Auth: React.FC = () => {
 		<div className="container h-dvh inline-flex items-center justify-center">
 			<Form
 				form={form}
-				className="w-96 space-y-6 p-6 py-12 border bg-card rounded-xl"
-			>
+				className="w-96 space-y-6 p-6 py-12 border bg-card rounded-xl">
 				<div className="space-y-4">
 					{signInField.map((formField, key) => (
 						<form.Field name={formField.name} key={key}>
@@ -49,8 +48,7 @@ const Auth: React.FC = () => {
 				</div>
 
 				<form.Subscribe
-					selector={(state) => [state.canSubmit, state.isSubmitting]}
-				>
+					selector={(state) => [state.canSubmit, state.isSubmitting]}>
 					{([canSubmit, isSubmitting]) => (
 						<Button type="submit" className="w-full" disabled={!canSubmit}>
 							{isSubmitting ? <Loader className="animate-spin" /> : "Submit"}
