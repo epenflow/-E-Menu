@@ -1,10 +1,11 @@
 import axios, {
 	type AxiosHeaders,
 	type AxiosInstance,
-	type HeadersDefaults,
+	type Method,
 	type RawAxiosRequestHeaders,
 } from "axios";
 
+import { useAuthStore } from "./auth";
 import env from "./env";
 import { assertIsDefined } from "./utils";
 
@@ -15,11 +16,13 @@ const http: AxiosInstance = axios.create({
 });
 export default http;
 
-export function headers():
-	| RawAxiosRequestHeaders
-	| AxiosHeaders
-	| Partial<HeadersDefaults> {
-	const token: string | undefined = "";
+export function headers(): RawAxiosRequestHeaders &
+	Partial<
+		{
+			[Key in Method as Lowercase<Key>]: AxiosHeaders;
+		} & { common: AxiosHeaders }
+	> {
+	const token: string | undefined = useAuthStore.getState().token?.token;
 
 	assertIsDefined(token);
 
