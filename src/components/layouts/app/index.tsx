@@ -1,13 +1,12 @@
-import { Button } from "~/components/ui/button";
+import { Outlet } from "@tanstack/react-router";
 
-import { useAuthStore } from "~/lib/auth";
+import AppBar from "./app-bar";
 
 const App = () => {
-	const signOut = useAuthStore().signOut;
 	return (
 		<>
-			<Button onClick={() => signOut()}>sign-out</Button>
-			<h1>Dashboard</h1>
+			<AppBar />
+			<Outlet />
 		</>
 	);
 };

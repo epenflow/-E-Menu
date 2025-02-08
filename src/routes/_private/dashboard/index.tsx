@@ -1,16 +1,7 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
-
-import App from "~/components/layouts/app";
+import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_private/dashboard/")({
-	component: App,
-	async beforeLoad({ context: { auth } }) {
-		const $isAuthenticated = auth.isAuthenticated();
-
-		if (!$isAuthenticated) {
-			throw redirect({
-				to: "/",
-			});
-		}
+	component: () => {
+		return <div>index</div>;
 	},
 });
