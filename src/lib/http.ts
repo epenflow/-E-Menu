@@ -8,7 +8,7 @@ import axios, {
 import env from "./env";
 import { assertIsDefined } from "./utils";
 
-const baseURL = env.ENDPOINT ?? "localhost:3333";
+const baseURL = env.VITE_BASE_URL ?? "localhost:3333";
 const http: AxiosInstance = axios.create({
 	baseURL,
 	headers: {},

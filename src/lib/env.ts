@@ -7,7 +7,7 @@ const env = z
 		MODE: z.enum(["production", "development"]),
 		PROD: z.boolean(),
 		SSR: z.boolean(),
-		ENDPOINT: z.string().url().optional(),
+		VITE_BASE_URL: z.string().url().optional(),
 	})
 	.parse(import.meta.env);
 

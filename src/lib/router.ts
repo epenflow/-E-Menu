@@ -3,14 +3,19 @@ import { createRouter } from "@tanstack/react-router";
 
 import Loader from "~/components/layouts/loader";
 
+import type { AuthContext } from "./auth";
 import { routeTree } from "~/routeTree.gen";
 
 export const query = new QueryClient();
-function router() {
+interface RouterContext {
+	auth: AuthContext;
+}
+function router({ auth }: RouterContext) {
 	return createRouter({
 		routeTree,
 		context: {
 			query,
+			auth,
 		},
 		defaultPreload: "intent",
 		defaultPreloadStaleTime: 0,

@@ -10,7 +10,7 @@
 		"paths": {
 			"~/*": ["src/*"],
 			"~/components/*": ["src/components/*"],
-			"~/libs/*": ["src/libs/*"]
+			"~/libs/*": ["src/lib/*"]
 		}
 	}
 }

@@ -1,9 +1,37 @@
+import React from "react";
+import type { DeepKeys, FormApi, Validator } from "@tanstack/react-form";
 import type { QueryClient } from "@tanstack/react-query";
 
+import type { AuthContext } from "./auth";
+
+export type TFormData<
+	TFormData,
+	TFormValidator extends Validator<TFormData, unknown> | undefined = undefined,
+> = {
+	value: TFormData;
+	formApi: FormApi<TFormData, TFormValidator>;
+};
+
+export type TFormField<TName> = {
+	name: DeepKeys<TName>;
+	label: string;
+	type: React.HTMLInputTypeAttribute;
+	autoComplete: React.HTMLInputAutoCompleteAttribute;
+	description?: React.ReactNode;
+	placeholder?: string;
+};
+export type TArrayFormField<TName> = Array<TFormField<TName>>;
 export interface RootRouteContext {
 	query: QueryClient;
+	auth: AuthContext;
 }
-
+export type THttpException<TException = undefined> = {
+	errors: Array<
+		TException extends undefined
+			? { message: string }
+			: TException & { message: string }
+	>;
+};
 export interface CookieAttributes {
 	/**
 	 * Define when the cookie will be removed. Value can be a Number

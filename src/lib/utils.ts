@@ -6,7 +6,7 @@ import type { StateStorage } from "zustand/middleware";
 
 import type { CookieAttributes } from "./types";
 
-export const withComponentMode = <T>({
+export const withOptionalComponent = <T>({
 	component,
 	mode,
 }: {
@@ -43,4 +43,12 @@ export function assertIsDefined<T>(
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function dumper(mode: boolean, message?: any, ...optionalParams: any[]) {
+	if (mode) {
+		console.log(message, ...optionalParams);
+		return;
+	}
 }

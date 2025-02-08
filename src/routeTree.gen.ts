@@ -8,123 +8,114 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createFileRoute } from "@tanstack/react-router";
-
 // Import Routes
 
-import { Route as rootRoute } from "./routes/__root";
-import { Route as PrivateImport } from "./routes/_private";
-
-// Create Virtual Routes
-
-const IndexLazyImport = createFileRoute("/")();
-const PrivateDashboardIndexLazyImport = createFileRoute(
-	"/_private/dashboard/",
-)();
+import { Route as rootRoute } from './routes/__root'
+import { Route as PrivateImport } from './routes/_private'
+import { Route as IndexImport } from './routes/index'
+import { Route as PrivateDashboardIndexImport } from './routes/_private/dashboard/index'
 
 // Create/Update Routes
 
 const PrivateRoute = PrivateImport.update({
-	id: "/_private",
-	getParentRoute: () => rootRoute,
-} as any);
+  id: '/_private',
+  getParentRoute: () => rootRoute,
+} as any)
 
-const IndexLazyRoute = IndexLazyImport.update({
-	id: "/",
-	path: "/",
-	getParentRoute: () => rootRoute,
-} as any).lazy(() => import("./routes/index.lazy").then((d) => d.Route));
+const IndexRoute = IndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
 
-const PrivateDashboardIndexLazyRoute = PrivateDashboardIndexLazyImport.update({
-	id: "/dashboard/",
-	path: "/dashboard/",
-	getParentRoute: () => PrivateRoute,
-} as any).lazy(() =>
-	import("./routes/_private/dashboard/index.lazy").then((d) => d.Route),
-);
+const PrivateDashboardIndexRoute = PrivateDashboardIndexImport.update({
+  id: '/dashboard/',
+  path: '/dashboard/',
+  getParentRoute: () => PrivateRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
-declare module "@tanstack/react-router" {
-	interface FileRoutesByPath {
-		"/": {
-			id: "/";
-			path: "/";
-			fullPath: "/";
-			preLoaderRoute: typeof IndexLazyImport;
-			parentRoute: typeof rootRoute;
-		};
-		"/_private": {
-			id: "/_private";
-			path: "";
-			fullPath: "";
-			preLoaderRoute: typeof PrivateImport;
-			parentRoute: typeof rootRoute;
-		};
-		"/_private/dashboard/": {
-			id: "/_private/dashboard/";
-			path: "/dashboard";
-			fullPath: "/dashboard";
-			preLoaderRoute: typeof PrivateDashboardIndexLazyImport;
-			parentRoute: typeof PrivateImport;
-		};
-	}
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/_private': {
+      id: '/_private'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof PrivateImport
+      parentRoute: typeof rootRoute
+    }
+    '/_private/dashboard/': {
+      id: '/_private/dashboard/'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof PrivateDashboardIndexImport
+      parentRoute: typeof PrivateImport
+    }
+  }
 }
 
 // Create and export the route tree
 
 interface PrivateRouteChildren {
-	PrivateDashboardIndexLazyRoute: typeof PrivateDashboardIndexLazyRoute;
+  PrivateDashboardIndexRoute: typeof PrivateDashboardIndexRoute
 }
 
 const PrivateRouteChildren: PrivateRouteChildren = {
-	PrivateDashboardIndexLazyRoute: PrivateDashboardIndexLazyRoute,
-};
+  PrivateDashboardIndexRoute: PrivateDashboardIndexRoute,
+}
 
 const PrivateRouteWithChildren =
-	PrivateRoute._addFileChildren(PrivateRouteChildren);
+  PrivateRoute._addFileChildren(PrivateRouteChildren)
 
 export interface FileRoutesByFullPath {
-	"/": typeof IndexLazyRoute;
-	"": typeof PrivateRouteWithChildren;
-	"/dashboard": typeof PrivateDashboardIndexLazyRoute;
+  '/': typeof IndexRoute
+  '': typeof PrivateRouteWithChildren
+  '/dashboard': typeof PrivateDashboardIndexRoute
 }
 
 export interface FileRoutesByTo {
-	"/": typeof IndexLazyRoute;
-	"": typeof PrivateRouteWithChildren;
-	"/dashboard": typeof PrivateDashboardIndexLazyRoute;
+  '/': typeof IndexRoute
+  '': typeof PrivateRouteWithChildren
+  '/dashboard': typeof PrivateDashboardIndexRoute
 }
 
 export interface FileRoutesById {
-	__root__: typeof rootRoute;
-	"/": typeof IndexLazyRoute;
-	"/_private": typeof PrivateRouteWithChildren;
-	"/_private/dashboard/": typeof PrivateDashboardIndexLazyRoute;
+  __root__: typeof rootRoute
+  '/': typeof IndexRoute
+  '/_private': typeof PrivateRouteWithChildren
+  '/_private/dashboard/': typeof PrivateDashboardIndexRoute
 }
 
 export interface FileRouteTypes {
-	fileRoutesByFullPath: FileRoutesByFullPath;
-	fullPaths: "/" | "" | "/dashboard";
-	fileRoutesByTo: FileRoutesByTo;
-	to: "/" | "" | "/dashboard";
-	id: "__root__" | "/" | "/_private" | "/_private/dashboard/";
-	fileRoutesById: FileRoutesById;
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths: '/' | '' | '/dashboard'
+  fileRoutesByTo: FileRoutesByTo
+  to: '/' | '' | '/dashboard'
+  id: '__root__' | '/' | '/_private' | '/_private/dashboard/'
+  fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-	IndexLazyRoute: typeof IndexLazyRoute;
-	PrivateRoute: typeof PrivateRouteWithChildren;
+  IndexRoute: typeof IndexRoute
+  PrivateRoute: typeof PrivateRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
-	IndexLazyRoute: IndexLazyRoute,
-	PrivateRoute: PrivateRouteWithChildren,
-};
+  IndexRoute: IndexRoute,
+  PrivateRoute: PrivateRouteWithChildren,
+}
 
 export const routeTree = rootRoute
-	._addFileChildren(rootRouteChildren)
-	._addFileTypes<FileRouteTypes>();
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()
 
 /* ROUTE_MANIFEST_START
 {
@@ -137,7 +128,7 @@ export const routeTree = rootRoute
       ]
     },
     "/": {
-      "filePath": "index.lazy.tsx"
+      "filePath": "index.tsx"
     },
     "/_private": {
       "filePath": "_private.tsx",
@@ -146,7 +137,7 @@ export const routeTree = rootRoute
       ]
     },
     "/_private/dashboard/": {
-      "filePath": "_private/dashboard/index.lazy.tsx",
+      "filePath": "_private/dashboard/index.tsx",
       "parent": "/_private"
     }
   }
