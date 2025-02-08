@@ -17,6 +17,7 @@ import { Route as PrivateImport } from "./routes/_private";
 
 // Create Virtual Routes
 
+const IndexLazyImport = createFileRoute("/")();
 const PrivateDashboardIndexLazyImport = createFileRoute(
 	"/_private/dashboard/",
 )();
@@ -27,6 +28,12 @@ const PrivateRoute = PrivateImport.update({
 	id: "/_private",
 	getParentRoute: () => rootRoute,
 } as any);
+
+const IndexLazyRoute = IndexLazyImport.update({
+	id: "/",
+	path: "/",
+	getParentRoute: () => rootRoute,
+} as any).lazy(() => import("./routes/index.lazy").then((d) => d.Route));
 
 const PrivateDashboardIndexLazyRoute = PrivateDashboardIndexLazyImport.update({
 	id: "/dashboard/",
@@ -40,6 +47,13 @@ const PrivateDashboardIndexLazyRoute = PrivateDashboardIndexLazyImport.update({
 
 declare module "@tanstack/react-router" {
 	interface FileRoutesByPath {
+		"/": {
+			id: "/";
+			path: "/";
+			fullPath: "/";
+			preLoaderRoute: typeof IndexLazyImport;
+			parentRoute: typeof rootRoute;
+		};
 		"/_private": {
 			id: "/_private";
 			path: "";
@@ -71,35 +85,40 @@ const PrivateRouteWithChildren =
 	PrivateRoute._addFileChildren(PrivateRouteChildren);
 
 export interface FileRoutesByFullPath {
+	"/": typeof IndexLazyRoute;
 	"": typeof PrivateRouteWithChildren;
 	"/dashboard": typeof PrivateDashboardIndexLazyRoute;
 }
 
 export interface FileRoutesByTo {
+	"/": typeof IndexLazyRoute;
 	"": typeof PrivateRouteWithChildren;
 	"/dashboard": typeof PrivateDashboardIndexLazyRoute;
 }
 
 export interface FileRoutesById {
 	__root__: typeof rootRoute;
+	"/": typeof IndexLazyRoute;
 	"/_private": typeof PrivateRouteWithChildren;
 	"/_private/dashboard/": typeof PrivateDashboardIndexLazyRoute;
 }
 
 export interface FileRouteTypes {
 	fileRoutesByFullPath: FileRoutesByFullPath;
-	fullPaths: "" | "/dashboard";
+	fullPaths: "/" | "" | "/dashboard";
 	fileRoutesByTo: FileRoutesByTo;
-	to: "" | "/dashboard";
-	id: "__root__" | "/_private" | "/_private/dashboard/";
+	to: "/" | "" | "/dashboard";
+	id: "__root__" | "/" | "/_private" | "/_private/dashboard/";
 	fileRoutesById: FileRoutesById;
 }
 
 export interface RootRouteChildren {
+	IndexLazyRoute: typeof IndexLazyRoute;
 	PrivateRoute: typeof PrivateRouteWithChildren;
 }
 
 const rootRouteChildren: RootRouteChildren = {
+	IndexLazyRoute: IndexLazyRoute,
 	PrivateRoute: PrivateRouteWithChildren,
 };
 
@@ -113,8 +132,12 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
+        "/",
         "/_private"
       ]
+    },
+    "/": {
+      "filePath": "index.lazy.tsx"
     },
     "/_private": {
       "filePath": "_private.tsx",

@@ -1,5 +1,7 @@
 import React from "react";
+import { clsx, type ClassValue } from "clsx";
 import Cookies from "js-cookie";
+import { twMerge } from "tailwind-merge";
 import type { StateStorage } from "zustand/middleware";
 
 import type { CookieAttributes } from "./types";
@@ -37,4 +39,8 @@ export function assertIsDefined<T>(
 		throw new Error(
 			message ?? `Expected 'data' to be defined, but received ${data}`,
 		);
+}
+
+export function cn(...inputs: ClassValue[]) {
+	return twMerge(clsx(inputs));
 }
