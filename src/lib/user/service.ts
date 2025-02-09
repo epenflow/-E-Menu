@@ -1,8 +1,15 @@
 import http, { headers } from "../http";
+import type { User } from "../types";
+import { userURL } from "./constant";
 import type { TUsersSuccess } from "./types";
 
 export async function usersService() {
-	const url = "/user";
+	return await http.get<TUsersSuccess>(userURL, { headers: headers() });
+}
 
-	return await http.get<TUsersSuccess>(url, { headers: headers() });
+export async function deleteUserService(data: User) {
+	const url = userURL + "/" + data.id;
+	return await http.delete(url, {
+		headers: headers(),
+	});
 }

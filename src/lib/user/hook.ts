@@ -2,33 +2,27 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { useToast } from "~/hooks/use-toast";
 
-import http, { headers } from "../http";
 import { USERS_QUERY_KEY } from "./constant";
+import { deleteUserService } from "./service";
 
-export function useDeleteUser(id: string, username?: string) {
+export function useDeleteUserMutation() {
 	const queryClient = useQueryClient();
 	const { toast } = useToast();
-	const service = async () => {
-		const url = "/user/" + id;
-		return await http.delete(url, {
-			headers: headers(),
-		});
-	};
 
 	return useMutation({
-		mutationFn: service,
-		onMutate: async () => {
+		mutationFn: deleteUserService,
+		async onMutate() {
 			await queryClient.cancelQueries({ queryKey: USERS_QUERY_KEY.all });
 		},
-		onSuccess: () => {
+		onSuccess(_, variable) {
 			toast({
 				title: "Success",
-				description: username
-					? `Delete ${username} successfully`
+				description: variable.username
+					? `Delete ${variable.username} successfully`
 					: "Delete user successfully",
 			});
 		},
-		onError: () => {
+		onError() {
 			toast({
 				variant: "destructive",
 				title: "Error",
@@ -36,7 +30,7 @@ export function useDeleteUser(id: string, username?: string) {
 			});
 			queryClient.invalidateQueries({ queryKey: USERS_QUERY_KEY.all });
 		},
-		onSettled: () => {
+		onSettled() {
 			queryClient.invalidateQueries({ queryKey: USERS_QUERY_KEY.all });
 		},
 	});

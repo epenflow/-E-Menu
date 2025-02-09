@@ -24,19 +24,12 @@ import {
 } from "~/components/ui/dropdown-menu";
 
 import type { User } from "~/lib/types";
-import { useDeleteUser } from "~/lib/user/hook";
+import { useDeleteUserMutation } from "~/lib/user/hook";
 
 const UserManagementAction: React.FC<CellContext<User, unknown>> = ({
 	row,
 }) => {
-	const { mutateAsync } = useDeleteUser(row.original.id, row.original.username);
-	const copyUsername = () => {
-		navigator.clipboard.writeText(row.original.username);
-	};
-
-	const deleteUser = async () => {
-		await mutateAsync();
-	};
+	const { mutateAsync: deleteUser } = useDeleteUserMutation();
 
 	return (
 		<AlertDialog>
@@ -49,7 +42,10 @@ const UserManagementAction: React.FC<CellContext<User, unknown>> = ({
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="end">
 					<DropdownMenuLabel>Actions</DropdownMenuLabel>
-					<DropdownMenuItem onClick={copyUsername}>
+					<DropdownMenuItem
+						onClick={() =>
+							navigator.clipboard.writeText(row.original.username)
+						}>
 						Copy {row.original.username}
 					</DropdownMenuItem>
 					<DropdownMenuSeparator />
@@ -69,7 +65,9 @@ const UserManagementAction: React.FC<CellContext<User, unknown>> = ({
 				</AlertDialogHeader>
 				<AlertDialogFooter>
 					<AlertDialogCancel>Cancel</AlertDialogCancel>
-					<AlertDialogAction onClick={deleteUser}>Continue</AlertDialogAction>
+					<AlertDialogAction onClick={() => deleteUser(row.original)}>
+						Continue
+					</AlertDialogAction>
 				</AlertDialogFooter>
 			</AlertDialogContent>
 		</AlertDialog>

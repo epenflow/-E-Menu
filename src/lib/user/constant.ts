@@ -5,10 +5,11 @@ import UserManagementAction from "~/components/base/form/user/dropdown/user-mana
 import { DATE_FORMAT_dd_MMMM_yyyy_hh_mm_b } from "../constant";
 import { userColumnHelper } from "./helper";
 
+export const userURL = "/user";
 export const USERS_QUERY_KEY = {
 	all: ["users"],
 };
-export const EDIT_USER_MUTATION_KEY: string[] = ["edit_user"];
+
 export const USER_MANAGEMENT_COLUMNS = [
 	userColumnHelper.display({
 		id: "index",
