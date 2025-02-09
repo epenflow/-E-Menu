@@ -1,7 +1,8 @@
 import { QueryClient } from "@tanstack/react-query";
 import { createRouter } from "@tanstack/react-router";
 
-import Loader from "~/components/layouts/loader";
+import AppErrors from "~/components/layouts/app/app-error";
+import AppLoader from "~/components/layouts/app/app-loader";
 
 import type { AuthContext } from "./auth";
 import { routeTree } from "~/routeTree.gen";
@@ -19,7 +20,8 @@ function router({ auth }: RouterContext) {
 		},
 		defaultPreload: "intent",
 		defaultPreloadStaleTime: 0,
-		defaultPendingComponent: Loader,
+		defaultPendingComponent: AppLoader,
+		defaultErrorComponent: AppErrors,
 		scrollRestoration: true,
 	});
 }

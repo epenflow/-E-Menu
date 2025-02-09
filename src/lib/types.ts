@@ -3,6 +3,7 @@ import type { DeepKeys, FormApi, Validator } from "@tanstack/react-form";
 import type { QueryClient } from "@tanstack/react-query";
 
 import type { AuthContext } from "./auth";
+import type { ROLES } from "./enum";
 
 export type TFormData<
 	TFormData,
@@ -11,7 +12,26 @@ export type TFormData<
 	value: TFormData;
 	formApi: FormApi<TFormData, TFormValidator>;
 };
+export interface User {
+	id: string;
+	username: string;
+	role: ROLES;
+	createdAt: Date;
+	updatedAt: Date;
+	isAdmin: boolean;
+}
 
+export interface MetaPaginator {
+	total: string;
+	perPage: string;
+	currentPage: string;
+	lastPage: string;
+	firstPage: string;
+	firstPageUrl: string;
+	lastPageUrl: string;
+	nextPageUrl: string;
+	previousPageUrl: string;
+}
 export type TFormField<TName> = {
 	name: DeepKeys<TName>;
 	label: string;

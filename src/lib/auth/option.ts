@@ -1,6 +1,6 @@
 import { formOptions } from "@tanstack/react-form";
 
-import { DEBOUNCES_MS } from "./constant";
+import { DEBOUNCE_MS } from "../constant";
 import { signInSchema } from "./schema";
 import type { TSignInSchema } from "./types";
 
@@ -11,6 +11,6 @@ export const signInOptions = formOptions<TSignInSchema>({
 	},
 	validators: {
 		onChangeAsync: signInSchema,
-		onChangeAsyncDebounceMs: DEBOUNCES_MS,
+		onChangeAsyncDebounceMs: DEBOUNCE_MS,
 	},
 });

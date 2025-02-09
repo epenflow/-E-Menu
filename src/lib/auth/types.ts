@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-import type { ROLES } from "../enum";
+import type { User } from "../types";
 import type { signInSchema } from "./schema";
 
 export type TSignInSchema = z.infer<typeof signInSchema>;
@@ -12,14 +12,7 @@ export interface Token {
 	lastUsedAt: Date | null;
 	expiresAt: Date | null;
 }
-interface User {
-	id: string;
-	username: string;
-	role: ROLES;
-	createdAt: Date;
-	updatedAt: Date;
-	isAdmin: boolean;
-}
+
 export type TSignSuccess = {
 	user: User;
 	token: Token;

@@ -1,4 +1,5 @@
 import { Button } from "~/components/ui/button";
+import { SidebarTrigger } from "~/components/ui/sidebar";
 
 import { useAuthStore } from "~/lib/auth";
 import { cn } from "~/lib/utils";
@@ -14,10 +15,10 @@ const AppBar = () => {
 			)}>
 			<nav
 				className={cn(
-					"container py-2 box-content",
+					"py-2 box-content w-full px-4",
 					"inline-flex items-center justify-between",
 				)}>
-				<h1>E-Menu</h1>
+				<SidebarTrigger />
 				<Button onClick={() => signOut()}>Sign-Out</Button>
 			</nav>
 		</header>
