@@ -6,7 +6,7 @@ import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 
-import { signInField, useSignInForm } from "~/lib/auth";
+import { SIGN_IN_FIELD, useSignInForm } from "~/lib/auth";
 
 const Auth: React.FC = () => {
 	const form = useSignInForm();
@@ -17,7 +17,7 @@ const Auth: React.FC = () => {
 				form={form}
 				className="w-96 space-y-6 p-6 py-12 border bg-card rounded-xl">
 				<div className="space-y-4">
-					{signInField.map((formField, key) => (
+					{SIGN_IN_FIELD.map((formField, key) => (
 						<form.Field name={formField.name} key={key}>
 							{(field) => (
 								<div className="space-y-1">

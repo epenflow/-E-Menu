@@ -9,7 +9,11 @@ import { useToast } from "~/hooks/use-toast";
 
 import type { THttpException } from "../types";
 import { cookiesStorage } from "../utils";
-import { authExpiresAt, authSessionKey, signInMutationKey } from "./constant";
+import {
+	AUTH_EXPIRES_AT,
+	AUTH_SESSION_KEY,
+	SIGN_IN_MUTATION_KEY,
+} from "./constant";
 import { signInOptions } from "./option";
 import { signInService } from "./service";
 import type { TAuthStore, TSignInSchema } from "./types";
@@ -37,16 +41,16 @@ export const useAuthStore = create(
 			},
 			signOut() {
 				set({ user: undefined, token: undefined });
-				Cookies.remove(authSessionKey);
+				Cookies.remove(AUTH_SESSION_KEY);
 			},
 		}),
 		{
-			name: authSessionKey,
+			name: AUTH_SESSION_KEY,
 			storage: createJSONStorage(() =>
 				cookiesStorage({
 					secure: true,
 					sameSite: "strict",
-					expires: authExpiresAt,
+					expires: AUTH_EXPIRES_AT,
 					path: "/",
 				}),
 			),
@@ -59,7 +63,7 @@ export function useSigInMutation() {
 	const signIn = useAuthStore().signIn;
 
 	return useMutation({
-		mutationKey: signInMutationKey,
+		mutationKey: SIGN_IN_MUTATION_KEY,
 		mutationFn: signInService,
 
 		onSuccess({ data }) {
