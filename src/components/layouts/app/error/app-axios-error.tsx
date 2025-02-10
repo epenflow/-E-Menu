@@ -20,18 +20,22 @@ const ErrorWrapper: React.FC<React.ComponentPropsWithRef<"div">> = ({
 		</div>
 	);
 };
-
+interface ErrorProps {
+	error: AxiosError;
+}
+const AuthorizationError: React.FC<ErrorProps> = ({ error }) => {
+	const exceptions = error.response?.data as THttpException | undefined;
+	return (
+		<ErrorWrapper className="space-y-1">
+			<h6 className="text-xl">{error.status}</h6>
+			<p>
+				{exceptions?.errors.map((exception) => exception.message).join(", ")}
+			</p>
+		</ErrorWrapper>
+	);
+};
 const AppAxiosError: Record<number, React.FC<{ error: AxiosError }>> = {
-	403: ({ error }) => {
-		const exceptions = error.response?.data as THttpException | undefined;
-		return (
-			<ErrorWrapper className="space-y-1">
-				<h6 className="text-xl">{error.status}</h6>
-				<p>
-					{exceptions?.errors.map((exception) => exception.message).join(", ")}
-				</p>
-			</ErrorWrapper>
-		);
-	},
+	403: AuthorizationError,
+	401: AuthorizationError,
 };
 export default AppAxiosError;
