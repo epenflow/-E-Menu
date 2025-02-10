@@ -11,8 +11,8 @@ import type { THttpException } from "../types";
 import { cookiesStorage } from "../utils";
 import {
 	AUTH_EXPIRES_AT,
+	AUTH_MUTATION_KEY,
 	AUTH_SESSION_KEY,
-	SIGN_IN_MUTATION_KEY,
 } from "./constant";
 import { signInOptions } from "./option";
 import { signInService } from "./service";
@@ -63,22 +63,22 @@ export function useSigInMutation() {
 	const signIn = useAuthStore().signIn;
 
 	return useMutation({
-		mutationKey: SIGN_IN_MUTATION_KEY,
+		mutationKey: AUTH_MUTATION_KEY.signIn,
 		mutationFn: signInService,
 
-		onSuccess({ data }) {
-			signIn({ token: data.token, user: data.user });
+		onSuccess({ user, token }) {
+			signIn({ token, user });
 		},
 
 		onError(error) {
 			if (error instanceof AxiosError) {
-				const $exception: THttpException | undefined = error.response?.data;
+				const exceptions: THttpException | undefined = error.response?.data;
 
 				toast({
 					title: "Error",
 					description:
-						$exception?.errors
-							?.map((response) => response.message)
+						exceptions?.errors
+							?.map((exception) => exception.message)
 							.join(", ") || "An unexpected error occurred.",
 					variant: "destructive",
 				});
@@ -98,9 +98,9 @@ export function useSignInForm(opts?: FormOptions<TSignInSchema>) {
 
 	return useForm<TSignInSchema>({
 		...signInOptions,
-		async onSubmit(data) {
+		async onSubmit(formData) {
 			try {
-				await mutateAsync(data);
+				await mutateAsync(formData);
 			} catch (error) {
 				Promise.resolve(error);
 			}
