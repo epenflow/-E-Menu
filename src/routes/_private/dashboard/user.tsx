@@ -16,21 +16,19 @@ import {
 	TableRow,
 } from "~/components/ui/table";
 
-import { USER_MANAGEMENT_COLUMNS, usersOptions } from "~/lib/user";
+import { USER_MANAGEMENT_COLUMNS, usersQueryOptions } from "~/lib/user";
 
 export const Route = createFileRoute("/_private/dashboard/user")({
 	component: RouteComponent,
 	beforeLoad({ context: { query } }) {
-		query.ensureQueryData(usersOptions);
+		query.ensureQueryData(usersQueryOptions);
 	},
 });
 
 function RouteComponent() {
 	const {
-		data: {
-			data: { data },
-		},
-	} = useSuspenseQuery(usersOptions);
+		data: { data },
+	} = useSuspenseQuery(usersQueryOptions);
 	const table = useReactTable({
 		data,
 		columns: USER_MANAGEMENT_COLUMNS,

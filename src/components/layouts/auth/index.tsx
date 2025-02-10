@@ -1,8 +1,7 @@
 import React from "react";
-import { Loader } from "lucide-react";
 
 import Form from "~/components/base/form";
-import { Button } from "~/components/ui/button";
+import FormSubmit from "~/components/base/form/form-submit";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 
@@ -46,15 +45,7 @@ const Auth: React.FC = () => {
 						</form.Field>
 					))}
 				</div>
-
-				<form.Subscribe
-					selector={(state) => [state.canSubmit, state.isSubmitting]}>
-					{([canSubmit, isSubmitting]) => (
-						<Button type="submit" className="w-full" disabled={!canSubmit}>
-							{isSubmitting ? <Loader className="animate-spin" /> : "Submit"}
-						</Button>
-					)}
-				</form.Subscribe>
+				<FormSubmit form={form} />
 			</Form>
 		</div>
 	);
